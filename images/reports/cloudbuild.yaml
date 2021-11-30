@@ -1,7 +1,7 @@
 options:
   substitution_option: ALLOW_LOOSE
 steps:
-  - name: 'gcr.io/k8s-testimages/gcb-docker-gcloud:v20200422-b25d964'
+  - name: 'gcr.io/k8s-staging-test-infra/gcb-docker-gcloud:v20211008-60e346af'
     entrypoint: bash
     env:
       - TAG=$_GIT_TAG
