@@ -50,7 +50,7 @@ func (s *echoServer) fullMethod(method string) string {
 	return fullMethod(s.fullService, method)
 }
 
-func (s *echoServer) Echo(ctx context.Context, in *pb.EchoRequest) (*pb.EchoResponse, error) {
+func (s *echoServer) doEcho(methodName string, ctx context.Context, in *pb.EchoRequest) (*pb.EchoResponse, error) {
 	connectionType := "plaintext"
 	if s.tls {
 		connectionType = "TLS"
@@ -77,7 +77,7 @@ func (s *echoServer) Echo(ctx context.Context, in *pb.EchoRequest) (*pb.EchoResp
 	}
 	resp := &pb.EchoResponse{
 		Assertions: &pb.Assertions{
-			FullyQualifiedMethod: s.fullMethod("Echo"),
+			FullyQualifiedMethod: s.fullMethod(methodName),
 			Headers: headers,
 			Authority: authority,
 			Context: podContext,
@@ -124,6 +124,15 @@ func (s *echoServer) Echo(ctx context.Context, in *pb.EchoRequest) (*pb.EchoResp
 		resp.Assertions.TlsAssertions = tlsAssertions
 	}
 	return resp, nil
+}
+
+
+func (s *echoServer) Echo(ctx context.Context, in *pb.EchoRequest) (*pb.EchoResponse, error) {
+	return s.doEcho("Echo", ctx, in)
+}
+
+func (s *echoServer) EchoTwo(ctx context.Context, in *pb.EchoRequest) (*pb.EchoResponse, error) {
+	return s.doEcho("EchoTwo", ctx, in)
 }
 
 var podContext *pb.Context

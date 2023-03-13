@@ -85,4 +85,7 @@ message EchoResponse {
 
 service GrpcEcho {
 	rpc Echo(EchoRequest) returns (EchoResponse) {}
+
+	// Behaves identically to Echo, but lives at a different method.
+	rpc EchoTwo(EchoRequest) returns (EchoResponse) {}
 }
