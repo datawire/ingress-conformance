@@ -21,20 +21,18 @@ WORKDIR /go/src/sigs.k8s.io/ingress-controller-conformance/
 
 RUN apt-get update -y && apt-get install -y wget unzip
 
-# TODO: Also enable arm.
+COPY install_protoc.sh /install_protoc.sh
 
-RUN cd /tmp && \
-	wget https://github.com/protocolbuffers/protobuf/releases/download/v22.2/protoc-22.2-linux-x86_64.zip && \
-	echo "73243017d21ebe1cc1fda4005b5ace91ffc68218  protoc-22.2-linux-x86_64.zip" | shasum -c && \
-	unzip protoc-22.2-linux-x86_64.zip bin/protoc && \
-	mv bin/protoc /usr/local/bin/protoc
-
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28 && \
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+RUN /install_protoc.sh
 
 COPY go.mod go.sum ./
 
 RUN go mod download
+
+# This is required to add these binaries to the PATH so protoc can discover
+# them.
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go && \
+	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
 
 COPY grpcecho.proto .
 
