@@ -182,13 +182,14 @@ func writeEchoResponseHeaders(w http.ResponseWriter, headers http.Header) {
 }
 
 func logRequestAssertions(rs RequestAssertions, w http.ResponseWriter, headers http.Header) {
-	js, err := json.Marshal(rs)
-	if err != nil {
-		processError(w, err, http.StatusInternalServerError)
-		return
-	}
 	_, ok := headers["X-Echo-Log-Request"]
 	if ok {
+		js, err := json.Marshal(rs)
+		if err != nil {
+			processError(w, err, http.StatusInternalServerError)
+			return
+		}
+
 		fmt.Printf("The request is: %v\n", string(js))
 	}
 }
