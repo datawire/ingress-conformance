@@ -152,7 +152,7 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 
 		tlsStateToAssertions(r.TLS),
 	}
-
+	logRequestAssertions(requestAssertions, w, r.Header)
 	js, err := json.MarshalIndent(requestAssertions, "", " ")
 	if err != nil {
 		processError(w, err, http.StatusInternalServerError)
@@ -179,6 +179,18 @@ func writeEchoResponseHeaders(w http.ResponseWriter, headers http.Header) {
 		}
 	}
 
+}
+
+func logRequestAssertions(rs RequestAssertions, w http.ResponseWriter, headers http.Header) {
+	js, err := json.Marshal(rs)
+	if err != nil {
+		processError(w, err, http.StatusInternalServerError)
+		return
+	}
+	_, ok := headers["X-Echo-Log-Request"]
+	if ok {
+		fmt.Printf("The request is: %v\n", string(js))
+	}
 }
 
 func processError(w http.ResponseWriter, err error, code int) {
