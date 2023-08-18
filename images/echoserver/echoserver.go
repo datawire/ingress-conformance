@@ -30,6 +30,10 @@ import (
 	"strings"
 )
 
+// LogRequestHeader triggers the echo-server to log received request headers
+// when this header is present in the request.
+const LogRequestHeader = "X-Echo-Log-Request"
+
 // RequestAssertions contains information about the request and the Ingress
 type RequestAssertions struct {
 	Path    string              `json:"path"`
@@ -166,7 +170,7 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func writeEchoResponseHeaders(w http.ResponseWriter, headers http.Header) {
-	for _, headerKVList := range headers["X-Echo-Set-Header"] {
+	for _, headerKVList := range headers[LogRequestHeader] {
 		headerKVs := strings.Split(headerKVList, ",")
 		for _, headerKV := range headerKVs {
 			name, value, _ := strings.Cut(strings.TrimSpace(headerKV), ":")
