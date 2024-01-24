@@ -6,13 +6,13 @@ Feature: Load Balancing
   Background:
     Given a new random namespace
     Given an Ingress resource named "load-balancing" with this spec:
-    """
-    defaultBackend:
-      service:
-        name: echo-service
-        port:
-          number: 8080
-    """
+      """
+      defaultBackend:
+        service:
+          name: echo-service
+          port:
+            number: 8080
+      """
     Then The Ingress status shows the IP address or FQDN where it is exposed
     Then The backend deployment "echo-service" for the ingress resource is scaled to 10
 

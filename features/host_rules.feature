@@ -9,39 +9,39 @@ Feature: Host rules
     Given a new random namespace
     Given a self-signed TLS secret named "conformance-tls" for the "foo.bar.com" hostname
     Given an Ingress resource
-    """
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      name: host-rules
-    spec:
-      tls:
-        - hosts:
-            - foo.bar.com
-          secretName: conformance-tls
-      rules:
-        - host: "*.foo.com"
-          http:
-            paths:
-              - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: wildcard-foo-com
-                    port:
-                      number: 8080
-    
-        - host: foo.bar.com
-          http:
-            paths:
-              - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: foo-bar-com
-                    port:
-                      name: http
-    """
+      """
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: host-rules
+      spec:
+        tls:
+          - hosts:
+              - foo.bar.com
+            secretName: conformance-tls
+        rules:
+          - host: "*.foo.com"
+            http:
+              paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: wildcard-foo-com
+                      port:
+                        number: 8080
+
+          - host: foo.bar.com
+            http:
+              paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: foo-bar-com
+                      port:
+                        name: http
+      """
     Then The Ingress status shows the IP address or FQDN where it is exposed
 
   Scenario: An Ingress with a host rule should send TLS traffic to the matching backend service

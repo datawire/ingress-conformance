@@ -22,8 +22,10 @@ set -o pipefail
 
 KUBE_ROOT=$(dirname "${BASH_SOURCE}")/..
 
+pip3 install reformat-gherkin==3.0.1 --ignore-installed PyYAML
+
 if ! command -v reformat-gherkin --version &> /dev/null; then
-  echo "Please install reformat-gherkin running \"pip install reformat-gherkin\""
+  echo "Installation of reformat-gherkin failed. See error above"
   exit 1
 fi
 

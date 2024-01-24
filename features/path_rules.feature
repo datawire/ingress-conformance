@@ -7,89 +7,89 @@ Feature: Path rules
 
   Background:
     Given an Ingress resource in a new random namespace
-    """
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      name: path-rules
-    spec:
-      rules:
-        - host: "exact-path-rules"
-          http:
-            paths:
-              - path: /foo
-                pathType: Exact
-                backend:
-                  service:
-                    name: foo-exact
-                    port:
-                      number: 8080
-    
-        - host: "prefix-path-rules"
-          http:
-            paths:
-              - path: /foo
-                pathType: Prefix
-                backend:
-                  service:
-                    name: foo-prefix
-                    port:
-                      number: 8080
-    
-              - path: /aaa/bbb
-                pathType: Prefix
-                backend:
-                  service:
-                    name: aaa-slash-bbb-prefix
-                    port:
-                      number: 8080
-    
-              - path: /aaa
-                pathType: Prefix
-                backend:
-                  service:
-                    name: aaa-prefix
-                    port:
-                      number: 8080
-    
-        - host: "mixed-path-rules"
-          http:
-            paths:
-              - path: /foo
-                pathType: Prefix
-                backend:
-                  service:
-                    name: foo-prefix
-                    port:
-                      number: 8080
-    
-              - path: /foo
-                pathType: Exact
-                backend:
-                  service:
-                    name: foo-exact
-                    port:
-                      number: 8080
-    
-        - host: "trailing-slash-path-rules"
-          http:
-            paths:
-              - path: /aaa/bbb/
-                pathType: Prefix
-                backend:
-                  service:
-                    name: aaa-slash-bbb-slash-prefix
-                    port:
-                      number: 8080
-    
-              - path: /foo/
-                pathType: Exact
-                backend:
-                  service:
-                    name: foo-slash-exact
-                    port:
-                      number: 8080
-    """
+      """
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: path-rules
+      spec:
+        rules:
+          - host: "exact-path-rules"
+            http:
+              paths:
+                - path: /foo
+                  pathType: Exact
+                  backend:
+                    service:
+                      name: foo-exact
+                      port:
+                        number: 8080
+
+          - host: "prefix-path-rules"
+            http:
+              paths:
+                - path: /foo
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: foo-prefix
+                      port:
+                        number: 8080
+
+                - path: /aaa/bbb
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: aaa-slash-bbb-prefix
+                      port:
+                        number: 8080
+
+                - path: /aaa
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: aaa-prefix
+                      port:
+                        number: 8080
+
+          - host: "mixed-path-rules"
+            http:
+              paths:
+                - path: /foo
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: foo-prefix
+                      port:
+                        number: 8080
+
+                - path: /foo
+                  pathType: Exact
+                  backend:
+                    service:
+                      name: foo-exact
+                      port:
+                        number: 8080
+
+          - host: "trailing-slash-path-rules"
+            http:
+              paths:
+                - path: /aaa/bbb/
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: aaa-slash-bbb-slash-prefix
+                      port:
+                        number: 8080
+
+                - path: /foo/
+                  pathType: Exact
+                  backend:
+                    service:
+                      name: foo-slash-exact
+                      port:
+                        number: 8080
+      """
     Then The Ingress status shows the IP address or FQDN where it is exposed
 
   Scenario: An Ingress with exact path rules should send traffic to the matching backend service
