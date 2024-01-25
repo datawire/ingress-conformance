@@ -10,4 +10,4 @@ Shows how to test an ingress controller that do not requires cloud resources, li
 
 ### gce
 
-Shows how to test an ingress controller provided by a cloud vendor, Google Cloud in this case using [kube-up](https://kubernetes.io/docs/tasks/tools/install-kubectl/#verifying-kubectl-configuration) to test [ingress-gce](https://github.com/kubernetes/ingress-gce)
+Shows how to test an ingress controller provided by a cloud vendor, Google Cloud in this case using [kube-up](https://github.com/kubernetes/kubernetes/blob/master/cluster/kube-up.sh) to test [ingress-gce](https://github.com/kubernetes/ingress-gce)
